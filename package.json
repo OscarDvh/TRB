@@ -11,6 +11,8 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^5.12.8",
+    "firebase": "^12.1.0",
+    "jspdf": "^3.0.1",
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {

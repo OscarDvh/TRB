@@ -50,7 +50,7 @@ import background from "../assets/background.svg";
 
       <!-- Derecha: Login -->
       <div class="w-1/2 bg-white flex justify-center items-center shadow-xl">
-        <form class="w-[80%] max-w-md space-y-6">
+        <form id="login-form" class="w-[80%] max-w-md space-y-6">
           <h1 class="block text-center text-2xl font-bold text-[#1B2A41]">
             Iniciar sesion
           </h1>
@@ -60,6 +60,7 @@ import background from "../assets/background.svg";
               >Usuario</label
             >
             <input
+              id="email"
               type="email"
               placeholder="usuario@mail.com"
               class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-[#EE1C02]"
@@ -71,6 +72,7 @@ import background from "../assets/background.svg";
               >Contraseña</label
             >
             <input
+              id="password"
               type="password"
               placeholder="********"
               class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-[#EE1C02]"
@@ -108,3 +110,6 @@ import background from "../assets/background.svg";
     </div>
   </body>
 </html>
+
+  <script type="module" src="../loginfb.js" client:load></script>
+</body>
