@@ -174,6 +174,9 @@ pdf.text("Firma del Técnico:_________________________", 112, 160);
       y += 5;
     });
 
+      const pdfBlob = pdf.output("blob"); // crea un blob
+  const url = URL.createObjectURL(pdfBlob);
+  window.open(url, "_blank"); // abre en nueva pestaña
   }
 
   // ===== CREAR NUEVA ORDEN =====

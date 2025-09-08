@@ -1,7 +1,7 @@
 // reiniciarContador.js
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { firebaseConfig } from "./firebase-client.js"; // tu config de Firebase
+import { firebaseConfig } from "./public/scripts/firebase-client.js"; // tu config de Firebase
 
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
