@@ -1,4 +1,4 @@
-import { auth } from "../firebase-client.js";
+import { auth } from "scripts/firebase-client.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
 document.addEventListener("DOMContentLoaded", () => {

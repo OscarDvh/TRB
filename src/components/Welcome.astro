@@ -3,6 +3,9 @@ import logo from "../assets/logo.png";
 ---
 
 <body class="h-screen bg-base-200">
+    <!-- Contenedor de notificaciones -->
+<div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
   <div class="drawer lg:drawer-open">
     <input id="drawer-toggle" type="checkbox" class="drawer-toggle" />
 
@@ -33,12 +36,12 @@ import logo from "../assets/logo.png";
             <div class="stat-value text-primary" id="totalOrdenes">0</div>
           </div>
           <div class="stat">
-            <div class="stat-title">Equipos en reparación</div>
-            <div class="stat-value text-secondary" id="equiposReparacion">0</div>
+            <div class="stat-title">Equipos Pendientes</div>
+            <div class="stat-value text-secondary" id="ordenesPendientes">0</div>
           </div>
           <div class="stat">
-            <div class="stat-title">Clientes activos</div>
-            <div class="stat-value" id="clientesActivos">0</div>
+            <div class="stat-title">Clientes Entregados</div>
+            <div class="stat-value" id="ordenesEntregadas">0</div>
           </div>
         </div>
 
@@ -93,8 +96,6 @@ import logo from "../assets/logo.png";
         <li>
           <label for="nuevo-modal"><i class="fas fa-plus-circle mr-2"></i> Nueva orden</label>
         </li>
-        <li><a><i class="fas fa-box mr-2"></i> Equipos</a></li>
-        <li><a><i class="fas fa-users mr-2"></i> Clientes</a></li>
         <li><a><i class="fas fa-cog mr-2"></i> Configuración</a></li>
         <li><a href="#" id="logout-btn">    <i class="fas fa-sign-out-alt mr-2"></i> Cerrar sesión</a></li>
 
@@ -110,6 +111,7 @@ import logo from "../assets/logo.png";
     <form id="form-orden" class="space-y-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
+          <input type="hidden" id="editar-orden" />
           <label class="label"><span class="label-text">Nombre del cliente</span></label>
           <input id="nombre" placeholder="Juan Pérez" class="input input-bordered w-full" required />
         </div>
@@ -232,9 +234,10 @@ import logo from "../assets/logo.png";
       </div>
     </form>
   </div>
+
 </div>
 
   <!-- JS principal -->
    
-  <script type="module" src="../main.js" client:load></script>
+  <script type="module" src="/scripts/main.js" client:load></script>
 </body>
