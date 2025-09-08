@@ -103,17 +103,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===== Generar PDF =====
-  function generarOrdenPDF(orden) {
-    const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "letter" });
-    pdf.setFont("helvetica", "normal");
+function generarOrdenPDF(orden) {
+  const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "letter" });
 
-    const logo = new Image();
-    logo.src = "/assets/logo.png";
+  const logo = new Image();
+  logo.src = "/assets/logo.png";
+
+  logo.onload = () => {
+    pdf.setFont("helvetica", "normal");
     pdf.addImage(logo, "PNG", 12, 8, 25, 25);
 
+    // === Encabezado ===
     pdf.setFontSize(14);
     pdf.setFont("helvetica", "bold");
     pdf.text("TINTAS Y RECARGAS DEL BAJÍO", 105, 15, { align: "center" });
+
     pdf.setFontSize(9);
     pdf.setFont("helvetica", "normal");
     pdf.text("C. Juan Caballero y Osio 248, Jardines de Querétaro,", 105, 20, { align: "center" });
@@ -121,6 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     pdf.text("Tel: 442 248 2463 | Cel: 442 237 3569 | trbqro@hotmail.com", 105, 30, { align: "center" });
     pdf.line(10, 35, 205, 35);
 
+    // === Datos principales ===
     pdf.setFontSize(10);
     pdf.text(`Orden de entrada: ${orden.orden}`, 12, 42);
     pdf.text(`Fecha: ${orden.fecha}`, 160, 42);
@@ -135,49 +140,65 @@ document.addEventListener("DOMContentLoaded", () => {
     pdf.text(`Modelo: ${orden.modelo ?? ''}`, 140, 66);
     pdf.text(`Serie: ${orden.numeroDeSerie ?? ''}`, 12, 73);
 
+    // === Problema reportado ===
     pdf.rect(10, 82, 195, 20);
     pdf.text("Problema reportado:", 12, 89);
     pdf.setFont("helvetica", "italic");
-    pdf.text(orden.descripcion ?? '', 12, 95);
+    pdf.text(orden.descripcion ?? '', 12, 95, { maxWidth: 190 });
     pdf.setFont("helvetica", "normal");
 
+    // === Notas ===
     pdf.rect(10, 105, 195, 20);
     pdf.text("Notas:", 12, 112);
     pdf.setFont("helvetica", "italic");
-    pdf.text(orden.notas ?? '', 12, 118);
+    pdf.text(orden.notas ?? '', 12, 118, { maxWidth: 190 });
     pdf.setFont("helvetica", "normal");
 
+    // === Precio y entrega ===
     pdf.rect(10, 128, 195, 15);
-    pdf.text(`Monto: $${orden.precio ?? 0}`, 12, 137);
+    pdf.text(`Precio: $${orden.precio ?? 0}`, 12, 137);
     pdf.text(`Fecha de entrega: ${orden.fechaEntrega ?? ''}`, 120, 137);
-// Firmas
-pdf.rect(10, 148, 95, 20); // Caja para firma cliente
-pdf.text("Firma del Cliente:_________________________", 12, 160);
 
-pdf.rect(110, 148, 95, 20); // Caja para firma técnico
-pdf.text("Firma del Técnico:_________________________", 112, 160);
+    // === Firmas ===
+    pdf.rect(10, 148, 195, 20);
+    pdf.text("Firma del Cliente:_________________________", 12, 160);
+    pdf.text("Firma del Técnico:_________________________", 120, 160);
 
+    // === Condiciones ===
+// === Condiciones ===
+pdf.setFontSize(7);
 
+let condiciones = [
+  "No se entregara equipo si no se presenta esta orden de servicio",
+  "No se aceptan reclamos por equipos después de 60 días de haber ingresado al taller.",
+  "El desarme de impresoras NO TIENE GARANTÍA. (Por depender del uso y tintas utilizadas).",
+  "Los precios de servicio mínimo de equipo: $200 (Dos cientos pesos 00/100 M.N.).",
+  "Equipos de uso pesado: $450 (Cuatro cientos cincuenta pesos 00/100 M.N.).",
+  "Equipos no reparados en un plazo de 30 días estarán sujetos a revisión y cargo de $55 (cincuenta y cinco pesos 00/100 M.N.)."
+];
+
+let y = 180;
+condiciones.forEach((linea, i) => {
+  if (i === 0) {
+    // Primera condición (más grande y en negritas)
+    pdf.setFontSize(9);
+    pdf.setFont("helvetica", "bold");
+    pdf.text(linea, 12, y, { maxWidth: 190 });
     pdf.setFontSize(7);
-    let condiciones = [
-      "Sin presentar orden de servicio no se entrega equipo. A excepción de autorización y previa identificación.",
-      "No se aceptan reclamos por equipos después de 60 días de haber ingresado al taller.",
-      "No se acceptan equipos desarmado o en partes.",
-      "Los precios de servicio mínimo de equipo: $200 (Dos cientos pesos 00/100 M.N.).",
-      "Equipos de uso pesado: $450 (Cuatro cientos cincuenta pesos 00/100 M.N.).",
-      "Equipos no reparados en un plazo de 30 días estarán sujetos a revisión y cargo de $55 (cincuenta y cinco pesos 00/100 M.N.)."
-    ];
-
-    let y = 180;
-    condiciones.forEach(linea => {
-      pdf.text(linea, 12, y, { maxWidth: 190 });
-      y += 5;
-    });
-
-      const pdfBlob = pdf.output("blob"); // crea un blob
-  const url = URL.createObjectURL(pdfBlob);
-  window.open(url, "_blank"); // abre en nueva pestaña
+    pdf.setFont("helvetica", "normal");
+  } else {
+    // Resto normales
+    pdf.text(linea, 12, y, { maxWidth: 190 });
   }
+  y += 5;
+});
+
+
+    // === Guardar PDF ===
+    pdf.save(`Orden_${orden.cliente}.pdf`);
+  };
+}
+
 
   // ===== CREAR NUEVA ORDEN =====
 form.addEventListener("submit", async (e) => {
