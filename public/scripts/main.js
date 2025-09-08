@@ -150,9 +150,13 @@ document.addEventListener("DOMContentLoaded", () => {
     pdf.rect(10, 128, 195, 15);
     pdf.text(`Precio: $${orden.precio ?? 0}`, 12, 137);
     pdf.text(`Fecha de entrega: ${orden.fechaEntrega ?? ''}`, 120, 137);
+// Firmas
+pdf.rect(10, 148, 95, 20); // Caja para firma cliente
+pdf.text("Firma del Cliente:_________________________", 12, 160);
 
-    pdf.rect(10, 148, 195, 20);
-    pdf.text("Firma del Cliente:_________________________", 12, 160);
+pdf.rect(110, 148, 95, 20); // Caja para firma técnico
+pdf.text("Firma del Técnico:_________________________", 112, 160);
+
 
     pdf.setFontSize(7);
     let condiciones = [
@@ -170,7 +174,6 @@ document.addEventListener("DOMContentLoaded", () => {
       y += 5;
     });
 
-    pdf.save(`Orden_${orden.cliente}.pdf`);
   }
 
   // ===== CREAR NUEVA ORDEN =====
