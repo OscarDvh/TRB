@@ -162,7 +162,7 @@ pdf.text("Firma del Técnico:_________________________", 112, 160);
     let condiciones = [
       "Sin presentar orden de servicio no se entrega equipo. A excepción de autorización y previa identificación.",
       "No se aceptan reclamos por equipos después de 60 días de haber ingresado al taller.",
-      "El desarme de impresoras NO TIENE GARANTÍA. (Por depender del uso y tintas utilizadas).",
+      "No se acceptan equipos desarmado o en partes.",
       "Los precios de servicio mínimo de equipo: $200 (Dos cientos pesos 00/100 M.N.).",
       "Equipos de uso pesado: $450 (Cuatro cientos cincuenta pesos 00/100 M.N.).",
       "Equipos no reparados en un plazo de 30 días estarán sujetos a revisión y cargo de $55 (cincuenta y cinco pesos 00/100 M.N.)."
