@@ -180,21 +180,31 @@ pdf.text("Firma del Técnico:_________________________", 112, 160);
   }
 
   // ===== CREAR NUEVA ORDEN =====
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    try {
-      const numeroOrden = await generarNumeroOrden();
-      const datos = { ...obtenerDatosFormulario(), orden: numeroOrden, creado: new Date() };
-      const docRef = await addDoc(clientesRef, datos);
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  // Cerrar modal de inmediato
+  document.getElementById("nuevo-modal").checked = false;
+
+  try {
+    const numeroOrden = await generarNumeroOrden();
+    const datos = { ...obtenerDatosFormulario(), orden: numeroOrden, creado: new Date() };
+    const docRef = await addDoc(clientesRef, datos);
+
+    mostrarToast(`Orden ${datos.orden} creada correctamente.`, "success");
+
+    // Generar PDF en segundo plano (no bloqueante)
+    setTimeout(() => {
       generarOrdenPDF({ ...datos, id: docRef.id, fecha: datos.fechaIngreso });
-      form.reset();
-      document.getElementById("nuevo-modal").checked = false;
-      mostrarToast(`Orden ${datos.orden} creada correctamente.`, "success");
-    } catch (err) {
-      console.error("Error al guardar la orden:", err);
-      mostrarToast("Error al crear la orden.", "error");
-    }
-  });
+    }, 100);
+
+    form.reset();
+  } catch (err) {
+    console.error("Error al guardar la orden:", err);
+    mostrarToast("Error al crear la orden.", "error");
+  }
+});
+
 
   // ===== EDITAR ORDEN =====
   editarForm.addEventListener("submit", async (e) => {
