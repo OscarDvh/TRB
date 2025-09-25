@@ -349,4 +349,35 @@ form.addEventListener("submit", async (e) => {
     pendientesEl.textContent = pendientes;
     entregadasEl.textContent = entregadas;
   });
+    // ===== ORDENAR TABLA POR NÚMERO DE ORDEN =====
+  const orderColumn = document.getElementById('order-num');
+  const table = document.getElementById('tabla-clientes');
+
+  const sortTable = (columnIndex) => {
+    const rows = Array.from(table.querySelectorAll('tbody tr'))
+      .filter(row => !row.querySelector("td")?.textContent?.includes("Cargando"));
+
+    const isAscending = orderColumn.classList.contains('ascending');
+
+    rows.sort((a, b) => {
+      const aText = a.cells[columnIndex].innerText.trim().replace("ORD-", "");
+      const bText = b.cells[columnIndex].innerText.trim().replace("ORD-", "");
+
+      const aNum = parseInt(aText, 10);
+      const bNum = parseInt(bText, 10);
+
+      return isAscending ? bNum - aNum : aNum - bNum;
+    });
+
+    rows.forEach(row => table.querySelector("tbody").appendChild(row));
+
+    orderColumn.classList.toggle("ascending", !isAscending);
+    orderColumn.classList.toggle("descending", isAscending);
+  };
+
+  if (orderColumn) {
+    orderColumn.style.cursor = "pointer"; // Cambia el cursor para indicar que se puede hacer clic
+    orderColumn.title = "Haz clic para ordenar";
+    orderColumn.addEventListener("click", () => sortTable(0)); // 0 = columna "Num"
+  }
 });
