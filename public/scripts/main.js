@@ -156,7 +156,7 @@ function generarOrdenPDF(orden) {
 
     // === Precio y entrega ===
     pdf.rect(10, 128, 195, 15);
-    pdf.text(`Precio: $${orden.precio ?? 0}`, 12, 137);
+    pdf.text(`Costo: $${orden.precio ?? 0}`, 12, 137);
     pdf.text(`Fecha de entrega: ${orden.fechaEntrega ?? ''}`, 120, 137);
 
     // === Firmas ===
