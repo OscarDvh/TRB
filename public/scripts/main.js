@@ -109,10 +109,20 @@ function generarOrdenPDF(orden) {
   const logo = new Image();
   logo.src = "/assets/logo.png";
 
-  logo.onload = () => {
+   logo.onload = () => {
     pdf.setFont("helvetica", "normal");
-    pdf.addImage(logo, "PNG", 12, 8, 25, 25);
 
+    // === Marca de agua (logo centrado y con opacidad) ===
+    pdf.setGState(new pdf.GState({ opacity: 0.1 })); // Opacidad baja
+    const centerX = 105 - 50; // Centrado en una hoja tamaño carta (210mm de ancho)
+    const centerY = 140 - 50; // Aproximadamente centrado en alto (280mm)
+    pdf.addImage(logo, "PNG", centerX, centerY, 100, 100); // Ajusta tamaño según el logo
+
+    // === Restaura opacidad normal para contenido principal ===
+    pdf.setGState(new pdf.GState({ opacity: 1 }));
+
+    // === Logo superior izquierdo ===
+    pdf.addImage(logo, "PNG", 12, 8, 25, 25);
     // === Encabezado ===
     pdf.setFontSize(14);
     pdf.setFont("helvetica", "bold");
